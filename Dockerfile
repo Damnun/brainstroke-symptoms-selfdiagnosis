@@ -6,6 +6,6 @@ RUN pip install -r requirements.txt
 
 ADD templates templates
 
-ADD app.py .
+ADD face-recognition-py.py .
 
 CMD ["python", "app.py"]
