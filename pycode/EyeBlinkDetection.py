@@ -28,7 +28,7 @@ count_frame = 0
 (R_start, R_end) = face_utils.FACIAL_LANDMARKS_IDXS['right_eye']
 
 detector = dlib.get_frontal_face_detector()
-landmark_predict = dlib.shape_predictor('model/shape_predictor_68_face_landmarks.dat')
+landmark_predict = dlib.shape_predictor('../model/shape_predictor_68_face_landmarks.dat')
 
 cam = cv2.VideoCapture(0)
 while 1:
