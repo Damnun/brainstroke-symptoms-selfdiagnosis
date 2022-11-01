@@ -70,8 +70,13 @@ def checkout():
         age = request.form.get('age')
         sex = request.form.get('sex')
         print(name, email, age, sex)
-        return "성공"
+        return render_template('list-groups.html', name=name, email=email, age=age, sex=sex)
     return redirect('/')
+
+
+@app.route('/list-groups.html')
+def listgroups():
+    return render_template('list-groups.html')
 
 
 if __name__ == "__main__":
