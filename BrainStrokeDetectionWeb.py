@@ -1,130 +1,14 @@
-import os
-from flask import Flask, render_template, request, Response, url_for
+# Hand, Eye 인식 + flask web
+from flask import Flask, render_template, Response
 import cv2
 import dlib
 import imutils
 import mediapipe as mp
-import datetime
 from google.protobuf.json_format import MessageToDict
 from imutils import face_utils
 from scipy.spatial import distance as dist
 from soundplay import play
 import threading
-import models
-from models import db
-
-app = Flask(__name__)
-app.static_folder = "/Users/jaeheon/Desktop/Dev/uzu/static"
-faceCascade = "model/shape_predictor_68_face_landmarks.dat"
-
-# SQLAlchemy 설정
-# 현재있는 파일의 디렉토리 절대경로
-basdir = os.path.abspath(os.path.dirname(__file__))
-# basdir 경로안에 DB파일 만들기
-dbfile = os.path.join(basdir, 'db.sqlite')
-# 내가 사용 할 DB URI
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
-# 비지니스 로직이 끝날때 Commit 실행(DB반영)
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-# 수정사항에 대한 TRACK
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# SECRET_KEY
-app.config['SECRET_KEY'] = 'jqiowejrojzxcovnklqnweiorjqwoijroi'
-
-db.init_app(app)
-db.app = app
-db.create_all()
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/single.html')
-def single():
-    return render_template("single.html")
-
-
-@app.route('/index.html')
-def index_2():
-    return render_template('index.html')
-
-
-@app.route('/contact.html', methods=['GET', 'POST'])
-def contact():
-    if request.method == 'GET':
-        return render_template('contact.html')
-    else:
-        name = request.form.get('name')
-        email = request.form.get('email')
-        title = request.form.get('title')
-        question = request.form.get('question')
-        answered = 0
-        print(name, email, title, question, answered)
-        dbdata = models.Contact(username=name, email=email, title=title, question=question, answered=answered)
-        db.session.add(dbdata)
-        db.session.commit()
-        return "성공"
-    return redirect('/')
-
-
-@app.route('/checkout.html', methods=['GET', 'POST'])
-def checkout():
-    if request.method == 'GET':
-        return render_template('checkout.html')
-    else:
-        name = request.form.get('name')
-        email = request.form.get('email')
-        age = request.form.get('age')
-        sex = request.form.get('sex')
-        print(name, email, age, sex)
-        # db에 저장후 체크리스트로 넘어가기 (정보를 가져가서 나중에 체크리스트 데이터도 insert할 것)
-        return render_template(url_for('checkSymptoms'), name=name, email=email, age=age, sex=sex)
-    return redirect('/')
-
-
-@app.route('/result-search.html', methods=['GET', 'POST'])
-def resultSearch():
-    if request.method == 'GET':
-        return render_template('result-search.html')
-    else:
-        search_name = request.form.get('name')
-        search_email = request.form.get('email')
-        print(search_name, search_email)
-        # 입력 받아서 db 조회 후 결과 페이지로 넝머가기
-        return render_template('result-search.html')
-    return redirect('/')
-
-
-@app.route('/check-symptoms.html', methods=['GET', 'POST'])
-def checkSymptoms():
-    if request.method == 'GET':
-        return render_template('check-symptoms.html')
-    else:
-        # form에서 데이터 받기
-        mynametext = request.form.get('mynametext')
-        print(mynametext)
-        print(request.form.get)
-        return render_template('check-symptoms.html')
-    return redirect('/')
-
-
-@app.route('/video_setting')
-def videoSetting():
-    """Video streaming home page."""
-    now = datetime.datetime.now()
-    timeString = now.strftime("%Y-%m-%d %H:%M")
-    templateData = {
-        'title': 'Image Streaming',
-        'time': timeString
-    }
-    return render_template('face-recognition.html', **templateData)
-
-
-@app.route('/video_feed')
-def videoFeed():
-    return Response(stroke_detection(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 def calculate_EAR(eye):
@@ -135,7 +19,21 @@ def calculate_EAR(eye):
     return EAR
 
 
-def stroke_detection():
+# Flask settings
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('face-recognition.html')
+
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+def gen_frames():
     # variable values
     blink_thresh = 0.45
     succ_frame = 2
@@ -237,6 +135,7 @@ def stroke_detection():
                     # Return whether it is Right or Left Hand
                     label = MessageToDict(i)['classification'][0]['label']
 
+
                     if label == 'Left' and proceed == 0:
                         left_hand_token += 1
                         cv2.putText(img, label + ' Hand',
@@ -282,6 +181,5 @@ def stroke_detection():
     exit(0)
 
 
-if __name__ == "__main__":
-    app.debug = True
-    app.run(host="0.0.0.0", port="5000", debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
