@@ -1,10 +1,8 @@
 # flask 웹캠을 이용한 안면인식 페이지 예제
 from flask import Flask, render_template, Response
 import cv2
-import numpy as np
 import time
 import datetime
-import sys
 
 faceCascade = cv2.CascadeClassifier("model/haarcascade_frontalface_default.xml")
 num = 3
