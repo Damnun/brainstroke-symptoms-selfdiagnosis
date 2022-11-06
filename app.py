@@ -129,9 +129,26 @@ def checkSymptoms():
     return redirect('/')
 
 
+@app.route('/read-before')
+def readBefore():
+    return render_template('read-before.html')
+
 @app.route('/read')
 def read():
-    return render_template('read.html')
+    import speech_recognition as sr
+
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("말해보세요!")
+        audio = r.listen(source)
+        try:
+            transcript = r.recognize_google(audio, language="ko-KR")
+            print("인식된 음성 : " + transcript)
+        except sr.UnknownValueError:
+            print("인식된 음성을 이해할 수 없습니다.")
+        except sr.RequestError as e:
+            print("STT 서비스에 접근할 수 없습니다. {0}".format(e))
+    return render_template('read.html', transcript=transcript)
 
 
 @app.route('/video_setting', methods=['GET', 'POST'])
@@ -235,7 +252,6 @@ def stroke_detection():
                             cv2.waitKey(1)
                             cv2.waitKey(1)
                             cv2.waitKey(1)
-                            return render_template('read')
                     else:
                         count_frame = 0
 
@@ -316,4 +332,4 @@ def stroke_detection():
 
 if __name__ == "__main__":
     app.debug = True
-    app.run(host="0.0.0.0", port="5000", debug=True)
+    app.run(host="0.0.0.0", port="5000", debug=True, threaded=True)
