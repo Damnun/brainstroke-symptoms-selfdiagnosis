@@ -19,7 +19,7 @@ def index():
         'title': 'Image Streaming',
         'time': timeString
     }
-    return render_template('face-recognition.html', **templateData)
+    return render_template('face-recognition-noused.html', **templateData)
 
 
 def gen_frames():

@@ -24,7 +24,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('face-recognition.html')
+    return render_template('face-recognition-noused.html')
 
 
 @app.route('/video_feed')

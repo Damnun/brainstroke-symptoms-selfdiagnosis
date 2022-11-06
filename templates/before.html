@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="h-100">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,11 +8,7 @@
     <meta name="generator" content="Hugo 0.104.2">
     <title>뇌졸중 자가진단 서비스</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/cover/">
-
-
-
-
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/heroes/">
 
 <link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -69,44 +65,35 @@
       }
     </style>
 
-
+    
     <!-- Custom styles for this template -->
-    <link href="../static/cover.css" rel="stylesheet">
+    <link href="../static/heroes.css" rel="stylesheet">
   </head>
-  <body class="d-flex h-100 text-center text-bg-dark">
+  <body>
+    
+<main>
+  <div class="b-example-divider"></div>
 
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-  <header class="mb-auto">
-    <div>
-      <h3 class="float-md-start mb-0">뇌졸중 자가진단 서비스</h3>
-      <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0" href="home">홈페이지</a>
-        <a class="nav-link fw-bold py-1 px-0" href="search-result">결과 확인</a>
-        <a class="nav-link fw-bold py-1 px-0" href="contact">문의</a>
-      </nav>
+  <div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold">사전 준비 사항</h1>
+    <div class="col-lg-6 mx-auto"> <br>
+      <p class="lead mb-4">1. 카메라와 마이크가 잘 작동하는지 확인해 주세요</p>
+      <p class="lead mb-4">2. 기기의 볼륨을 키워 안내 음성의 지시에 따라 주세요.</p>
+      <p class="lead mb-4">3. 얼굴 인식이 되지 않는다면 안경과 마스크를 해제해 주세요.</p> <br>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <br><a href="/video_setting" class="btn btn-primary btn-lg px-4 gap-3">시작하기</a>
+          <a href="/index.html" class="btn btn-outline-secondary btn-lg px-4">돌아가기</a>
+      </div>
     </div>
-  </header>
-
-  <main class="px-3">
-        <div class="container">
-            <div class="row">
-                <div class="row col">
-                    <img src="{{ url_for('videoFeed') }}" width="200%">
-                </div>
-            </div>
-        </div>
-            <br><br><h4>1. 왼손을 3초간 들어주세요</h4>
-            <h4>2. 오른손을 3초간 들어주세요</h4>
-            <h4>3. 양손을 3초간 들어주세요</h4>
-            <h4>4. 3초간 눈을 깜빡여주세요</h4>
-  </main>
-
-  <footer class="mt-auto text-white-50">
-    <p>순천향대학교 의료IT공학과 20185119 이재헌</p>
-  </footer>
-</div>
+  </div>
 
 
+  <div class="b-example-divider mb-0"></div>
+</main>
 
+
+    <script src="../static/assets/dist/js/bootstrap.bundle.min.js"></script>
+
+      
   </body>
 </html>
