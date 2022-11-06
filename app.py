@@ -4,54 +4,66 @@ import cv2
 import dlib
 import imutils
 import mediapipe as mp
-import datetime
 from google.protobuf.json_format import MessageToDict
 from imutils import face_utils
 from scipy.spatial import distance as dist
-from soundplay import play
-import threading
+
 import models
+from pycode.soundplay import play
+import threading
 from models import db
+from models import User
+from models import Contact
+
+# TODO : 음성 인식 및 STT 페이지 구현
+# TODO : 배포 및 서버 최종 업로드 구현
 
 app = Flask(__name__)
 app.static_folder = "/Users/jaeheon/Desktop/Dev/uzu/static"
 faceCascade = "model/shape_predictor_68_face_landmarks.dat"
 
 # SQLAlchemy 설정
-# 현재있는 파일의 디렉토리 절대경로
 basdir = os.path.abspath(os.path.dirname(__file__))
-# basdir 경로안에 DB파일 만들기
 dbfile = os.path.join(basdir, 'db.sqlite')
-# 내가 사용 할 DB URI
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
-# 비지니스 로직이 끝날때 Commit 실행(DB반영)
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-# 수정사항에 대한 TRACK
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# SECRET_KEY
 app.config['SECRET_KEY'] = 'jqiowejrojzxcovnklqnweiorjqwoijroi'
 
 db.init_app(app)
 db.app = app
 db.create_all()
 
+name, email, sex, age, comment = "", "", "", "", ""
+left_hand, right_hand, both_hand, eyes, voice = False, False, False, False, False
+
+
+@app.route('/home')
+def index():
+    return render_template('home.html')
+
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def index2():
+    return render_template('home.html')
 
 
-@app.route('/single.html')
-def single():
-    return render_template("single.html")
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 
-@app.route('/index.html')
-def index_2():
-    return render_template('index.html')
+# @app.route('/index')
+# def index_2():
+#     return render_template('index.html')
 
 
-@app.route('/contact.html', methods=['GET', 'POST'])
+@app.route('/emergency')
+def emergency():
+    return render_template('emergency.html')
+
+
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'GET':
         return render_template('contact.html')
@@ -60,69 +72,77 @@ def contact():
         email = request.form.get('email')
         title = request.form.get('title')
         question = request.form.get('question')
-        answered = 0
-        print(name, email, title, question, answered)
-        dbdata = models.Contact(username=name, email=email, title=title, question=question, answered=answered)
+        dbdata = Contact(username=name, email=email, title=title, question=question, answered=0)
         db.session.add(dbdata)
         db.session.commit()
         return "성공"
     return redirect('/')
 
 
-@app.route('/checkout.html', methods=['GET', 'POST'])
+@app.route('/checkout')
 def checkout():
+    return render_template('checkout.html')
+
+
+@app.route('/before', methods=['GET', 'POST'])
+def before():
     if request.method == 'GET':
-        return render_template('checkout.html')
+        return render_template('before.html')
     else:
-        name = request.form.get('name')
-        email = request.form.get('email')
-        age = request.form.get('age')
-        sex = request.form.get('sex')
-        print(name, email, age, sex)
-        # db에 저장후 체크리스트로 넘어가기 (정보를 가져가서 나중에 체크리스트 데이터도 insert할 것)
-        return render_template(url_for('checkSymptoms'), name=name, email=email, age=age, sex=sex)
-    return redirect('/')
+        comment = request.form.get('comment')
+        print(name, email, age, sex, comment)
+        user = User(username=name, email=email, age=age, sex=sex, comment=comment, filename=name+email+'.avi')
+        db.session.add(user)
+        db.session.commit()
+        return render_template('face-recognition.html')
+    return redirect('')
 
 
-@app.route('/result-search.html', methods=['GET', 'POST'])
+@app.route('/search-result', methods=['GET', 'POST'])
 def resultSearch():
     if request.method == 'GET':
-        return render_template('result-search.html')
+        return render_template('search-result.html')
     else:
         search_name = request.form.get('name')
         search_email = request.form.get('email')
         print(search_name, search_email)
         # 입력 받아서 db 조회 후 결과 페이지로 넝머가기
-        return render_template('result-search.html')
+        return render_template('search-result.html')
     return redirect('/')
 
 
-@app.route('/check-symptoms.html', methods=['GET', 'POST'])
+@app.route('/check-symptoms', methods=['GET', 'POST'])
 def checkSymptoms():
+    global name
+    global email
+    global age
+    global sex
     if request.method == 'GET':
         return render_template('check-symptoms.html')
     else:
         # form에서 데이터 받기
-        mynametext = request.form.get('mynametext')
-        print(mynametext)
-        print(request.form.get)
-        return render_template('check-symptoms.html')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        age = request.form.get('age')
+        sex = request.form.get('sex')
+        return render_template('check-symptoms.html', name=name)
     return redirect('/')
 
 
-@app.route('/video_setting')
+@app.route('/read')
+def read():
+    return render_template('read.html')
+
+
+@app.route('/video_setting', methods=['GET', 'POST'])
 def videoSetting():
-    """Video streaming home page."""
-    now = datetime.datetime.now()
-    timeString = now.strftime("%Y-%m-%d %H:%M")
-    templateData = {
-        'title': 'Image Streaming',
-        'time': timeString
-    }
-    return render_template('face-recognition.html', **templateData)
+    if request.method == 'GET':
+        return render_template('face-recognition.html')
+    else:
+        return render_template('face-recognition.html')
 
 
-@app.route('/video_feed')
+@app.route('/videoFeed')
 def videoFeed():
     return Response(stroke_detection(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
@@ -137,6 +157,7 @@ def calculate_EAR(eye):
 
 def stroke_detection():
     # variable values
+    global left_hand, right_hand, both_hand, eyes
     blink_thresh = 0.45
     succ_frame = 2
     count_frame = 0
@@ -158,7 +179,7 @@ def stroke_detection():
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     fourcc = cv2.VideoWriter_fourcc(*"XVID")
     fps = 30
-    out = cv2.VideoWriter('video.avi', fourcc, fps, (int(width), int(height)))
+    out = cv2.VideoWriter('./save_videos/' + name + email + '.avi', fourcc, fps, (int(width), int(height)))
 
     blink_count = 0
     # mode // 0: hand, 1: eye, 2: number, 3: sentence
@@ -179,7 +200,7 @@ def stroke_detection():
         img = imutils.resize(img, width=640)
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        if mode == 1 and blink_count < 100:
+        if mode == 1 and blink_count < 50:
             faces = detector(imgRGB)
             for face in faces:
                 shape = landmark_predict(imgRGB, face)
@@ -203,10 +224,18 @@ def stroke_detection():
                         print(blink_count)
                         cv2.putText(img, "Blink Detected", (30, 30),
                                     cv2.FONT_HERSHEY_DUPLEX, 1, (0, 200, 0), 2)
-                        if blink_count >= 100:
+                        if blink_count >= 50:
                             t = threading.Thread(target=play, args=(-2, ))
                             t.start()
                             print("pass")
+                            eyes = True
+                            cap.release()
+                            out.release()
+                            cv2.waitKey(1)
+                            cv2.waitKey(1)
+                            cv2.waitKey(1)
+                            cv2.waitKey(1)
+                            return render_template('read')
                     else:
                         count_frame = 0
 
@@ -225,6 +254,7 @@ def stroke_detection():
                             cv2.FONT_HERSHEY_COMPLEX,
                             0.9, (0, 255, 0), 2)
                 if both_hand_token >= 50:
+                    both_hand = True
                     proceed += 1
                     mode += 1
                     t = threading.Thread(target=play, args=(proceed + 2,))
@@ -244,6 +274,7 @@ def stroke_detection():
                                     cv2.FONT_HERSHEY_COMPLEX,
                                     0.9, (0, 255, 0), 2)
                         if left_hand_token >= 50:
+                            left_hand = True
                             proceed += 1
                             t = threading.Thread(target=play, args=(proceed + 2,))
                             t.start()
@@ -254,6 +285,7 @@ def stroke_detection():
                                     cv2.FONT_HERSHEY_COMPLEX,
                                     0.9, (0, 255, 0), 2)
                         if right_hand_token >= 50:
+                            right_hand = True
                             proceed += 1
                             t = threading.Thread(target=play, args=(proceed + 2,))
                             t.start()

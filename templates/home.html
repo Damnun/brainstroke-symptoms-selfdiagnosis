@@ -10,9 +10,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/cover/">
 
+    
 
-
-
+    
 
 <link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -69,18 +69,18 @@
       }
     </style>
 
-
+    
     <!-- Custom styles for this template -->
     <link href="../static/cover.css" rel="stylesheet">
   </head>
   <body class="d-flex h-100 text-center text-bg-dark">
-
+    
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
   <header class="mb-auto">
     <div>
       <h3 class="float-md-start mb-0">뇌졸중 자가진단 서비스</h3>
       <nav class="nav nav-masthead justify-content-center float-md-end">
-        <a class="nav-link fw-bold py-1 px-0" href="home">홈페이지</a>
+        <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">홈페이지</a>
         <a class="nav-link fw-bold py-1 px-0" href="search-result">결과 확인</a>
         <a class="nav-link fw-bold py-1 px-0" href="contact">문의</a>
       </nav>
@@ -88,17 +88,12 @@
   </header>
 
   <main class="px-3">
-        <div class="container">
-            <div class="row">
-                <div class="row col">
-                    <img src="{{ url_for('videoFeed') }}" width="200%">
-                </div>
-            </div>
-        </div>
-            <br><br><h4>1. 왼손을 3초간 들어주세요</h4>
-            <h4>2. 오른손을 3초간 들어주세요</h4>
-            <h4>3. 양손을 3초간 들어주세요</h4>
-            <h4>4. 3초간 눈을 깜빡여주세요</h4>
+    <h1>국내 단일 질환 사망 원인 1위, "뇌졸중"</h1><br>
+    <p class="lead">뇌졸중의 골든타임 4시간 30분, 자가진단 방법과 전조증상 숙지는 필수</p>
+    <p class="lead">스스로, 가족에게, 친구에게, 집에서, 병원에서, 공공장소에서 손쉬운 자가진단</p> <br>
+    <p class="lead">
+      <a href="checkout" class="btn btn-lg btn-secondary fw-bold border-white bg-white">지금 바로 시작하기</a>
+    </p>
   </main>
 
   <footer class="mt-auto text-white-50">
@@ -107,6 +102,6 @@
 </div>
 
 
-
+    
   </body>
 </html>
