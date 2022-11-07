@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, Response, url_for
+from flask import Flask, render_template, request, Response, url_for, send_file
 import cv2
 import dlib
 import imutils
@@ -17,6 +17,10 @@ from models import Contact
 
 # TODO : 음성 인식 및 STT 페이지 구현
 # TODO : 배포 및 서버 최종 업로드 구현
+# TODO : 결과 조회 페이지 - 결과 페이지 연결
+# TODO : 발표 자료 만들기
+# TODO : 결과 페이지 구성, hand, eye 별로 캡쳐사진 + 성공 여부 확인하기
+
 
 app = Flask(__name__)
 app.static_folder = "/Users/jaeheon/Desktop/Dev/uzu/static"
@@ -84,6 +88,11 @@ def checkout():
     return render_template('checkout.html')
 
 
+@app.route('/result')
+def result():
+    return render_template('result.html', name=name, age=age)
+
+
 @app.route('/before', methods=['GET', 'POST'])
 def before():
     if request.method == 'GET':
@@ -104,10 +113,12 @@ def resultSearch():
         return render_template('search-result.html')
     else:
         search_name = request.form.get('name')
+        search_age = request.form.get('age')
         search_email = request.form.get('email')
-        print(search_name, search_email)
-        # 입력 받아서 db 조회 후 결과 페이지로 넝머가기
-        return render_template('search-result.html')
+        print(search_name, search_age, search_email)
+        # 입력 받아서 db 조회 후 결과 페이지로 넘어가기
+        # return render_template('search-result.html')
+        return render_template('result.html', name=search_name, age=search_age, email=search_email)
     return redirect('/')
 
 
@@ -127,6 +138,12 @@ def checkSymptoms():
         sex = request.form.get('sex')
         return render_template('check-symptoms.html', name=name)
     return redirect('/')
+
+@app.route('/read-dummy')
+def readDummy():
+    import time
+    time.sleep(8)
+    return render_template('read-dummy.html')
 
 
 @app.route('/read-before')
@@ -194,9 +211,10 @@ def stroke_detection():
     cap = cv2.VideoCapture(0)
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-    fourcc = cv2.VideoWriter_fourcc(*"XVID")
+    # fourcc = cv2.VideoWriter_fourcc(*"XVID")
+    fourcc = cv2.VideoWriter_fourcc(*"H264")
     fps = 30
-    out = cv2.VideoWriter('./save_videos/' + name + email + '.avi', fourcc, fps, (int(width), int(height)))
+    out = cv2.VideoWriter('./static/save_videos/' + name + '_' + age + '.mp4', fourcc, fps, (int(width), int(height)))
 
     blink_count = 0
     # mode // 0: hand, 1: eye, 2: number, 3: sentence

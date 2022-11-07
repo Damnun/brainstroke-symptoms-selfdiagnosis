@@ -1,11 +1,150 @@
-{# TODO : 결과 페이지 작성 #}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.104.2">
+    <title>뇌졸중 자가진단 서비스</title>
 
-</body>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/product/">
+
+<link href="../static/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="../static/result.css" rel="stylesheet">
+  </head>
+  <body>
+    
+<header class="site-header sticky-top py-1">
+  <nav class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2" href="home" aria-label="Product">
+{#      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24"><title>Product</title><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"/></svg>#}
+        뇌졸중 자가진단 서비스
+    </a>
+    <a class="py-2 d-none d-md-inline-block" href="home">홈으로 돌아가기</a>
+  </nav>
+</header>
+
+<main>
+  <div class="position-relative overflow-hidden p-1 p-md-1 m-md-1 text-center bg-light">
+
+      <br></b><div class="row text-left bg-light"><h2><mark>{{ name }}님</mark>의 뇌졸중 전조증상 검사 결과</h2></div> <br>
+    <div class="col-md-5 p-lg-1 mx-auto my-3">
+        </brt><video src="../static/save_videos/{{ name }}_{{ age }}.mp4" loop controls muted autoplay width="500" height="300" ></video>
+
+      <br><br><h3 class="display-10 fw-normal">지금 당장은 문제가 없을 수 있습니다. &nbsp그러나...</h3>
+
+    </div>
+
+      <hr><br><p class="lead fw-normal">본 서비스는 100% 정확한 자가진단에 목표를 둔 것이 아닌, 뇌졸중의 증상과 위험성에 대한 인지 전파를 위해 고안되었습니다. <br> 완벽한 자가진단이란 존재하지 않으며, <mark>증상에 따른 정확한 진단은 꼭 의사의 진료를 통해 받아주시기 바랍니다.</mark> (필요시 상단 자가진단 영상자료 사용) <br> 의심 증상이 있다면 시급히 119에 연락하여 도움을 요청하거나 응급실에 내원하시기 바랍니다.</p><br><hr>
+      <br><p class="lead fw-normal">뇌졸중에 의한 사망률은 증상 발생 후 조기 치료 여부에 의해 영향을 크게 받으며,<br> <mark>뇌졸중 환자 중 3시간 이내에 병원에 도착하지 못하여 이에 따른 적절한 치료를 받지 못하고 있는 경우는 70% 이상</mark>인 것으로 알려져 있습니다.</p><br><hr>
+      <br><p class="lead fw-normal">제한된 시간 내에 적절한 치료를 제공 하기 위해서는 치료 가능 시간대에 병원에 도착 할 수 있어야 합니다. <br> 이를 위해서는 <mark> 평소 뇌졸중 증상의 조기 인식, 신속한 병원 이송과 같은 병원 전 단계의 시간을 단축시키는 것이 중요</mark>합니다.</p><br><hr>
+      <br><h1>FAST - 뇌졸중 증상 자가 진단</h1> <br>
+  </div>
+
+
+  <div class="d-md-flex flex-md-equal w-100 my-md-4 ps-md-4">
+    <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class="my-4 py-4">
+        <h2 class="display-5">Face | 얼굴마비</h2><br>
+        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"><img src="../static/images/fast-f.png" height="300" width="480"></div>
+      </div>
+    </div>
+
+
+      <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class="my-4 py-4">
+        <h2 class="display-5">Arms | 팔다리마비</h2><br>
+        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"><img src="../static/images/fast-a.png" height="300" width="480"></div>
+      </div>
+    </div>
+      </div>
+
+      <div class="d-md-flex flex-md-equal w-100 my-md-4 ps-md-4">
+    <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class="my-4 py-4">
+        <h2 class="display-5">Speech | 언어장애</h2><br>
+        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"><img src="../static/images/fast-s.png" height="300" width="480"></div>
+      </div>
+    </div>
+
+
+      <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class="my-4 py-4">
+        <h2 class="display-5">Time | 응급치료</h2><br>
+        <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"><img src="../static/images/fast-t.png" height="300" width="480"></div>
+      </div>
+    </div>
+      </div>
+</main>
+
+
+
+<footer class="container py-5">
+  <div class="row">
+    <div class="col-12 col-md">
+      <small class="d-block mb-3 text-muted text-center">&copy; 2022 순천향대학교 의료IT공학과 20185119 이재헌</small>
+    </div>
+  </div>
+</footer>
+
+
+    <script src="../static/assets/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
