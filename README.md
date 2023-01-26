@@ -1,5 +1,6 @@
 <div align="center">
-![슬라이드1](https://user-images.githubusercontent.com/72370701/214768681-9cb1198d-3c80-4957-b160-e04b8930582f.jpeg)
+  
+<img src="https://user-images.githubusercontent.com/72370701/214768681-9cb1198d-3c80-4957-b160-e04b8930582f.jpeg"/>
 ![슬라이드2](https://user-images.githubusercontent.com/72370701/214768683-72c1beb4-e7af-4b1e-a58f-f3e5e5eed461.jpeg)
 ![슬라이드3](https://user-images.githubusercontent.com/72370701/214768685-c5d6d08e-b61f-48cb-9ca8-85f734b8fb07.jpeg)
 ![슬라이드4](https://user-images.githubusercontent.com/72370701/214768687-652c980c-1e8b-472a-bf33-9d64cc3000e6.jpeg)
